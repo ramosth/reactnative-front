@@ -1,0 +1,60 @@
+const usuarioSkillsData = [
+  {
+    id: 1,
+    user_id: '1',
+    skill_id: '1',
+    knowledge_level: '9',
+    created_at: '18/08/2021',
+    updated_at: null,
+  },
+  {
+    id: 2,
+    user_id: '1',
+    skill_id: '2',
+    knowledge_level: '10',
+    created_at: '18/08/2021',
+    updated_at: null,
+  },
+  {
+    id: 3,
+    user_id: '1',
+    skill_id: '3',
+    knowledge_level: '8',
+    created_at: '18/08/2021',
+    updated_at: null,
+  },
+  {
+    id: 4,
+    user_id: '2',
+    skill_id: '4',
+    knowledge_level: '7',
+    created_at: '18/08/2021',
+    updated_at: null,
+  },
+  {
+    id: 5,
+    user_id: '2',
+    skill_id: '5',
+    knowledge_level: '9',
+    created_at: '18/08/2021',
+    updated_at: null,
+  },
+  {
+    id: 6,
+    user_id: '2',
+    skill_id: '6',
+    knowledge_level: '9',
+    created_at: '18/08/2021',
+    updated_at: null,
+  },
+  {
+    id: 7,
+    user_id: '2',
+    skill_id: '7',
+    knowledge_level: '9',
+    created_at: '18/08/2021',
+    updated_at: null,
+  },
+];
+
+export default usuarioSkillsData;
