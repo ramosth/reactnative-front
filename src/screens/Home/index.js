@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   SafeAreaView,
@@ -12,14 +12,15 @@ import {
 } from 'react-native';
 import { styles } from './styles';
 // import skillsData from '../../assets/data/skillsData';
-import usuarioSkillsData from '../../assets/data/usuarioSkillsData';
+// import usuarioSkillsData from '../../assets/data/usuarioSkillsData';
 import { UsuarioLogado } from '../../contexto/contextUsuario';
-// import { api } from '../services/Api/api';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UsersContext } from '../../contexto/UsersContext';
 
 export default function Home({ navigation }) {
 
-  const { usuario, logout } = React.useContext(UsuarioLogado);
+  const { usuario, logout } = useContext(UsuarioLogado);
+
+  const {state} = useContext(UsersContext);
 
   const [usuarioSkill, setUsuarioSkill] = useState([]);
   // const [usuarioSkillImage, setUsuarioSkillImage] = useState([]);
@@ -28,7 +29,7 @@ export default function Home({ navigation }) {
     const userSkills = (idUser) => {
 
       var userSkill = [];
-      usuarioSkillsData.forEach(valor => {
+      state.usuarioSkillsData.forEach(valor => {
         if (valor.user_id === idUser) {
           userSkill.push(valor);
         }
@@ -37,7 +38,7 @@ export default function Home({ navigation }) {
     };
     userSkills(usuario.id);
 
-  }, [usuario]);
+  }, [state.usuarioSkillsData, usuario]);
 
   // useEffect(() => {
   //   const userSkillsImage = () => {

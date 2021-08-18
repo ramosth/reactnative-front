@@ -7,6 +7,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import colors from './src/assets/colors/colors';
 import { UsuarioLogadoProvider } from './src/contexto/contextUsuario';
 import SplashScreen from 'react-native-splash-screen';
+import { UsersProvider } from './src/contexto/UsersContext';
 
 export default function App() {
 
@@ -16,11 +17,13 @@ export default function App() {
 
   return (
     <SafeAreaProvider style={{ backgroundColor: colors.backgroundColor }}>
-      <NavigationContainer>
-        <UsuarioLogadoProvider>
-          <Rotas />
-        </UsuarioLogadoProvider>
-      </NavigationContainer>
+      <UsersProvider>
+        <NavigationContainer>
+          <UsuarioLogadoProvider>
+            <Rotas />
+          </UsuarioLogadoProvider>
+        </NavigationContainer>
+      </UsersProvider>
     </SafeAreaProvider>
   );
 }
