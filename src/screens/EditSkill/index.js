@@ -1,26 +1,45 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {
  View,
  SafeAreaView,
  Text,
  TouchableOpacity,
- Alert,
 } from 'react-native';
 import { styles } from './styles';
 import Feather from 'react-native-vector-icons/Feather';
 import colors from '../../assets/colors/colors';
-import InputText from '../../components/InputText';
+import { Picker } from '@react-native-picker/picker';
 import Button from '../../components/Button';
 import LinearGradient from 'react-native-linear-gradient';
-// import { api } from '../services/Api/api';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UsersContext } from '../../contexto/UsersContext';
+import { dataAtual } from '../../screens/AddSkill';
 
 export default function EditSkill({ navigation, route }) {
 
  const item = route.params;
-
+ // console.warn(item);
  const [knowledge_level, setKnowledge_level] = useState(item.knowledge_level);
+
+ const { dispatch, knowledge } = useContext(UsersContext);
+ const pickerRef = useRef();
+
+ const [user, setUser] = useState({
+  id: item.id,
+  user_id: item.user_id,
+  skill_id: item.skill_id,
+  knowledge_level: item.knowledge_level,
+  created_at: item.created_at,
+  updated_at: dataAtual(),
+ });
+
+ const handleConhecimento = (nome) => {
+  setKnowledge_level(nome);
+  setUser({
+   ...user,
+   knowledge_level: nome,
+  });
+ };
 
  return (
   <View style={styles.container}>
@@ -40,29 +59,40 @@ export default function EditSkill({ navigation, route }) {
     </View>
 
     {/* Inputs */}
-    <View style={styles.inputsWrapper}>
-     <View style={styles.inputItemWrapper}>
-      <Text style={styles.inputItemTitle}>Nível de conhecimento</Text>
-      <InputText
-       value={knowledge_level}
-       onChangeText={(text) => setKnowledge_level(text)}
-       placeholder="Digite o nível de conhecimento"
-      />
+    <View style={styles.inputItemWrapper}>
+     <Text style={styles.inputItemTitle}>Nível de conhecimento</Text>
+     <View style={styles.selectItem}>
+      <Picker
+       ref={pickerRef}
+       selectedValue={knowledge_level}
+       onValueChange={(itemValue, itemIndex) => handleConhecimento(itemValue)}
+      >
+       {knowledge.map((know) => (
+        <Picker.Item key={know} label={know} value={know} style={styles.selectItemText} />
+       ))}
+      </Picker>
      </View>
-     {/* Button */}
-     <LinearGradient
-      start={{ x: 0.0, y: 0.25 }}
-      end={{ x: 0.5, y: 1.0 }}
-      locations={[0, 0.5, 0.6]}
-      colors={['#FB832D', '#FC7F36', '#FF774C']}
-      style={styles.buttonCreate}>
-      <Button
-       titulo="Editar skill"
-       buttonStyles={[styles.buttonCreateStyles]}
-       onPress={() => Alert.alert('Editar Skill')}
-      />
-     </LinearGradient>
     </View>
+    {/* Button */}
+    <LinearGradient
+     start={{ x: 0.0, y: 0.25 }}
+     end={{ x: 0.5, y: 1.0 }}
+     locations={[0, 0.5, 0.6]}
+     colors={['#FB832D', '#FC7F36', '#FF774C']}
+     style={styles.buttonCreate}>
+     <Button
+      titulo="Editar skill"
+      buttonStyles={[styles.buttonCreateStyles]}
+      onPress={() => {
+       dispatch({
+        type: 'updateUser',
+        payload: user,
+       });
+       navigation.goBack();
+       console.warn(user);
+      }}
+     />
+    </LinearGradient>
    </View>
   </View>
  );

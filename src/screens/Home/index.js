@@ -20,7 +20,7 @@ export default function Home({ navigation }) {
 
   const { usuario, logout } = useContext(UsuarioLogado);
 
-  const {state} = useContext(UsersContext);
+  const { state, dispatch } = useContext(UsersContext);
 
   const [usuarioSkill, setUsuarioSkill] = useState([]);
   // const [usuarioSkillImage, setUsuarioSkillImage] = useState([]);
@@ -73,7 +73,12 @@ export default function Home({ navigation }) {
     Alert.alert('Deletar Skill', 'Deseja excluir a skill?', [
       {
         text: 'Sim',
-        onPress() { console.warn('delete ' + item.id); },
+        onPress() {
+          dispatch({ // o que está dentro das {}, ou seja o objeto, é a action
+            type: 'deleteUser',
+            payload: item, //o dado/informação que está sendo passado junto com a action
+          });
+        },
       },
       {
         text: 'Não',
@@ -98,9 +103,6 @@ export default function Home({ navigation }) {
             <Text style={styles.skillItemTitle}>{item.knowledge_level}</Text>
             <Text style={styles.skillItemDescription}>Criado: {item.created_at}</Text>
             <Text style={styles.skillItemDescription}>Atualizado: {item.updated_at === null ? '-' : item.updated_at}</Text>
-            {/* <Text style={styles.skillItemTitle}>{item.title}</Text>
-            <Text style={styles.skillItemDescription}>{item.description}</Text>
-            <Text style={styles.skillItemDescription}>Versão: {item.version}</Text> */}
           </View>
           <View style={styles.skillItemImageIcons}>
             <TouchableOpacity style={styles.skillItemImageIcon} onPress={() => navigation.navigate('EditSkill', item)}>

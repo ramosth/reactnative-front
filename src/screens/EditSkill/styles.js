@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
  },
  inputItemWrapper: {
   marginBottom: 20,
+  marginHorizontal: 10,
  },
  inputItemTitle: {
   fontFamily: 'Georama-Regular',
@@ -50,5 +51,16 @@ export const styles = StyleSheet.create({
   },
   shadowOpacity: 0.05,
   shadowRadius: 50,
+ },
+ selectItem: {
+  borderRadius: 15,
+  borderColor: colors.inputTextColor,
+  borderWidth: 1,
+  backgroundColor: colors.white,
+ },
+ selectItemText: {
+  fontFamily: 'Georama-Regular',
+  fontSize: 16,
+  color: colors.textDark,
  },
 });
