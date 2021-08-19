@@ -11,8 +11,6 @@ import {
   Alert,
 } from 'react-native';
 import { styles } from './styles';
-// import skillsData from '../../assets/data/skillsData';
-// import usuarioSkillsData from '../../assets/data/usuarioSkillsData';
 import { UsuarioLogado } from '../../contexto/contextUsuario';
 import { UsersContext } from '../../contexto/UsersContext';
 
@@ -20,10 +18,11 @@ export default function Home({ navigation }) {
 
   const { usuario, logout } = useContext(UsuarioLogado);
 
-  const { state, dispatch } = useContext(UsersContext);
+  const { state, dispatch, skills } = useContext(UsersContext);
 
   const [usuarioSkill, setUsuarioSkill] = useState([]);
-  // const [usuarioSkillImage, setUsuarioSkillImage] = useState([]);
+
+  console.log('skills', skills);
 
   useEffect(() => {
     const userSkills = (idUser) => {
@@ -39,35 +38,6 @@ export default function Home({ navigation }) {
     userSkills(usuario.id);
 
   }, [state.usuarioSkillsData, usuario]);
-
-  // useEffect(() => {
-  //   const userSkillsImage = () => {
-
-  //     var usersSkillImage = [];
-  //     skillsData.forEach((skills) => {
-  //       usuarioSkill.forEach((us) => {
-  //         if (skills.id === us.skill_id) {
-  //           console.log('oi', us.skill_id);
-  //           const userSkillImage = {
-  //             id: us.id,
-  //             user_id: us.user_id,
-  //             skill_id: us.skill_id,
-  //             knowledge_level: us.knowledge_level,
-  //             created_at: us.created_at,
-  //             updated_at: us.updated_at,
-  //             image: skills.image,
-  //           };
-  //           usersSkillImage.push(userSkillImage);
-  //         }
-  //       });
-  //     });
-  //     console.log('usersImage', usersSkillImage);
-  //     setUsuarioSkillImage(res => [...res, usersSkillImage]);
-  //   };
-
-  //   userSkillsImage();
-
-  // }, [usuarioSkill]);
 
   const confirmSkillDelete = (item) => {
     Alert.alert('Deletar Skill', 'Deseja excluir a skill?', [
@@ -87,6 +57,7 @@ export default function Home({ navigation }) {
   };
 
   const renderSkillItem = ({ item }) => {
+
     return (
       <View
         style={[
@@ -98,7 +69,10 @@ export default function Home({ navigation }) {
           },
         ]}>
         <View style={styles.skillsItemWrapper}>
-          <Image source={{ uri: item.image }} style={styles.skillItemImage} />
+            <Image source={{ uri: item.image}} style={styles.skillItemImage} />
+          {/* {skillsData.map((sk) => (
+            <Image key={sk.id} source={{ uri: (sk.id === item.skill_id ? sk.image : sk.image)}} style={styles.skillItemImage} />
+          ))} */}
           <View>
             <Text style={styles.skillItemTitle}>{item.knowledge_level}</Text>
             <Text style={styles.skillItemDescription}>Criado: {item.created_at}</Text>

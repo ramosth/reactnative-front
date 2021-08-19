@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import usuarioSkillsData from '../assets/data/usuarioSkillsData';
 import knowledge from '../assets/data/knowledge';
+import skillsData from '../assets/data/skillsData';
+import api from '../services/skillService';
 
 const estadoGlobalInicial = { usuarioSkillsData };
 
@@ -52,10 +54,25 @@ export const UsersProvider = ({ children }) => {
   //o estado vai representar a lista de usuarios sempre na sua versão mais recente
   // o dispatch chama a função reducer() que tem por objetivo evoluir o estado... pegar o estado atual, e baseado em alguma ação disparada... essa função vai evoluir o estado
   const [state, dispatch] = useReducer(reducer, estadoGlobalInicial);
+  const [skills, setSkills] = useState([]);
+
+  useEffect(() => {
+    const obterSkills = async () => {
+      try {
+        const response = await api.getAllSkill('skill/all');
+        setSkills(response.data);
+      } catch (error) {
+        console.log('Response: ', error);
+      }
+    };
+    obterSkills();
+  }, []);
 
   return (
     <UsersContext.Provider
       value={{
+        skillsData,
+        skills,
         knowledge,
         state, // essa era a versão inicial --> state: { usuarioSkillsData },
         dispatch,
